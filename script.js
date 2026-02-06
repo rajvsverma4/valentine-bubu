@@ -155,6 +155,7 @@ function handleYesClick(){
 
         firstYesDone = true;
         particleStorm();
+        shakeScreen(1);
     }
 
     showNextQuestion(2);
@@ -184,12 +185,24 @@ function initLoveMeter(){
         loveValue.textContent = v;
 
 
+        const p = v / 10000;
+
+        // Glow
+        loveMeter.style.boxShadow =
+          `0 0 ${15+p*50}px rgba(255,23,68,1),
+           0 0 ${25+p*70}px rgba(255,128,171,1)`;
+
+
+        shakeScreen(p);
+
+
         if(v > 100){
 
             extraLove.classList.remove("hidden");
 
             if(v > 9000){
                 extraLove.textContent = "MAX LOVE 💍🔥";
+                extraLove.classList.add("super-love");
             }
             else if(v > 5000){
                 extraLove.textContent = "Too Much Love 😍";
@@ -203,6 +216,7 @@ function initLoveMeter(){
         }
 
 
+        // FINAL MODE
         if(v >= 10000 && !maxTriggered){
 
             maxTriggered = true;
@@ -218,15 +232,51 @@ function initLoveMeter(){
 
 function startFinalExplosion(){
 
+    shockwave();
     particleStorm();
     heartRain();
     fireworks();
 }
 
 
+// Shockwave Ring
+function shockwave(){
+
+    const wave = document.createElement("div");
+
+    wave.style.position = "fixed";
+    wave.style.left = "50%";
+    wave.style.top = "50%";
+
+    wave.style.width = "20px";
+    wave.style.height = "20px";
+
+    wave.style.border =
+      "3px solid rgba(255,60,120,0.9)";
+
+    wave.style.borderRadius = "50%";
+    wave.style.transform = "translate(-50%,-50%)";
+    wave.style.zIndex = 99999;
+
+    document.body.appendChild(wave);
+
+
+    wave.animate([
+        { transform:"translate(-50%,-50%) scale(1)", opacity:1 },
+        { transform:"translate(-50%,-50%) scale(40)", opacity:0 }
+    ],{
+        duration:900,
+        easing:"ease-out"
+    });
+
+    setTimeout(()=>wave.remove(),900);
+}
+
+
+// Particles
 function particleStorm(){
 
-    for(let i=0;i<80;i++){
+    for(let i=0;i<120;i++){
 
         const p = document.createElement("div");
 
@@ -244,10 +294,11 @@ function particleStorm(){
         const y=(Math.random()-0.5)*600;
 
         p.animate([
-            {opacity:1},
+            {transform:"scale(1)",opacity:1},
             {transform:`translate(${x}px,${y}px) scale(0)`,opacity:0}
         ],{
-            duration:1000
+            duration:1000,
+            easing:"ease-out"
         });
 
         setTimeout(()=>p.remove(),1000);
@@ -255,7 +306,7 @@ function particleStorm(){
 }
 
 
-// ❤️ HEART RAIN
+// ❤️ Heart Rain
 function heartRain(){
 
     const interval = setInterval(()=>{
@@ -287,11 +338,31 @@ function heartRain(){
 }
 
 
+// Fireworks
 function fireworks(){
 
-    for(let i=0;i<5;i++){
-        setTimeout(particleStorm,i*400);
+    for(let i=0;i<6;i++){
+        setTimeout(particleStorm,i*250);
     }
+}
+
+
+// Screen Shake
+function shakeScreen(p=0.3){
+
+    const c=document.querySelector(".container");
+    if(!c)return;
+
+    const i=2+p*7;
+
+    c.style.transform=
+      `translate(${Math.random()*i-i/2}px,
+                 ${Math.random()*i-i/2}px)`;
+
+
+    setTimeout(()=>{
+        c.style.transform="translate(0,0)";
+    },40);
 }
 
 
