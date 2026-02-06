@@ -8,7 +8,7 @@ let maxTriggered = false;
 
 // ================= TITLE =================
 
-document.title = config.pageTitle || "For You ❤️";
+document.title = config.pageTitle || "Raj ❤️ Supriya";
 
 
 // ================= INIT =================
@@ -16,11 +16,11 @@ document.title = config.pageTitle || "For You ❤️";
 window.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("valentineTitle").textContent =
-        `${config.valentineName || "My Love"}, my love...`;
+        "Supriya, my love... 💖";
 
 
     document.getElementById("question1Text").textContent =
-        "Hey Arya 💖, This is Adarsh... Will you be my Valentine? 😘";
+        "Hey Supriya 💖, This is Raj... Will you be my Valentine? 😘";
 
     document.getElementById("yesBtn1").textContent = "Yes";
     document.getElementById("noBtn1").textContent = "No";
@@ -45,6 +45,9 @@ window.addEventListener("DOMContentLoaded", () => {
     createFloatingElements();
     setupMusicPlayer();
     initLoveMeter();
+
+    // Start from Question 1
+    showNextQuestion(1);
 });
 
 
@@ -88,6 +91,20 @@ function showNextQuestion(num) {
 }
 
 
+// ================= GO TO FINAL =================
+
+function goToFinal() {
+    showNextQuestion(3);
+}
+
+
+// ================= FINAL YES =================
+
+function finalYes() {
+    celebrate();
+}
+
+
 // ================= NO MOVE =================
 
 function moveButton(btn) {
@@ -95,10 +112,10 @@ function moveButton(btn) {
     const pad = 80;
 
     const x =
-        Math.random() * (window.innerWidth - pad*2) + pad;
+        Math.random() * (window.innerWidth - pad * 2) + pad;
 
     const y =
-        Math.random() * (window.innerHeight - pad*2) + pad;
+        Math.random() * (window.innerHeight - pad * 2) + pad;
 
     btn.style.transition =
         "all 0.35s cubic-bezier(0.68,-0.55,0.27,1.55)";
@@ -132,26 +149,23 @@ function initLoveMeter() {
     loveValue.textContent = 100;
 
 
-    loveMeter.addEventListener("input", e => {
+    loveMeter.addEventListener("input", () => {
 
         const value = +loveMeter.value;
 
         loveValue.textContent = value;
 
 
-        // Glow
         const p = value / 10000;
 
         loveMeter.style.boxShadow =
-            `0 0 ${15+p*50}px rgba(255,23,68,1),
-             0 0 ${25+p*70}px rgba(255,128,171,1)`;
+            `0 0 ${15 + p * 50}px rgba(255,23,68,1),
+             0 0 ${25 + p * 70}px rgba(255,128,171,1)`;
 
 
-        // Shake
         shakeScreen(p);
 
 
-        // Messages
         if (value > 100 && extraLove) {
 
             extraLove.classList.remove("hidden");
@@ -168,16 +182,13 @@ function initLoveMeter() {
             }
 
         } else if (extraLove) {
-
             extraLove.classList.add("hidden");
         }
 
 
-        // FINAL MODE
         if (value >= 10000 && !maxTriggered) {
 
             maxTriggered = true;
-
             startFinalExplosion();
         }
 
@@ -186,7 +197,7 @@ function initLoveMeter() {
 }
 
 
-// ================= FINAL EXPLOSION =================
+// ================= FINAL EFFECT =================
 
 function startFinalExplosion() {
 
@@ -272,9 +283,7 @@ function fireworks(){
     for(let i=0;i<6;i++){
 
         setTimeout(()=>{
-
             particleStorm();
-
         },i*250);
     }
 }
@@ -345,13 +354,13 @@ function celebrate(){
     c.classList.remove("hidden");
 
 
-    document.getElementById("celebrationTitle").textContent=
-        "I Love You Arya ❤️";
+    document.getElementById("celebrationTitle").textContent =
+        "I Love You Supriya ❤️";
 
-    document.getElementById("celebrationMessage").textContent=
-        "You made Adarsh the happiest 💖";
+    document.getElementById("celebrationMessage").textContent =
+        "You made Raj the happiest 💖";
 
-    document.getElementById("celebrationEmojis").textContent=
+    document.getElementById("celebrationEmojis").textContent =
         "💍💘🥰💕✨";
 
 
