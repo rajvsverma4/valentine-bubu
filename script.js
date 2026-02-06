@@ -11,14 +11,11 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("valentineTitle").textContent =
         "Supriya, my love 💖";
 
-
     document.getElementById("question1Text").textContent =
         "Hey Supriya 💖, This is Raj... Will you be my Valentine? 😘";
 
-
     document.getElementById("question2Text").textContent =
         "How much do you love me? 😘";
-
 
     document.getElementById("question3Text").textContent =
         "So… Will you be mine forever? ❤️";
@@ -99,12 +96,12 @@ function setupMusicPlayer(){
 
 // ================= FLOATING =================
 
-function createFloatingElements() {
+function createFloatingElements(){
 
     const container = document.querySelector(".floating-elements");
-    if (!container) return;
+    if(!container) return;
 
-    ["❤️","💖","💕","💘"].forEach(h => {
+    ["❤️","💖","💕","💘"].forEach(h=>{
 
         const div = document.createElement("div");
         div.className = "heart";
@@ -116,12 +113,12 @@ function createFloatingElements() {
 }
 
 
-function setRandomPosition(el) {
+function setRandomPosition(el){
 
-    el.style.left = Math.random() * 100 + "vw";
-    el.style.animationDelay = Math.random() * 3 + "s";
+    el.style.left = Math.random()*100+"vw";
+    el.style.animationDelay = Math.random()*3+"s";
     el.style.animationDuration =
-        10 + Math.random() * 15 + "s";
+        10+Math.random()*15+"s";
 }
 
 
@@ -130,10 +127,10 @@ function setRandomPosition(el) {
 function showNextQuestion(num){
 
     document.querySelectorAll(".question-section")
-        .forEach(q => q.classList.add("hidden"));
+      .forEach(q=>q.classList.add("hidden"));
 
     document.getElementById(`question${num}`)
-        .classList.remove("hidden");
+      .classList.remove("hidden");
 }
 
 
@@ -153,7 +150,7 @@ function handleYesClick(){
 
     if(!firstYesDone){
 
-        firstYesDone = true;
+        firstYesDone=true;
         particleStorm();
         shakeScreen(1);
     }
@@ -164,31 +161,32 @@ function handleYesClick(){
 
 // ================= LOVE METER =================
 
-let loveMeter, loveValue, extraLove;
+let loveMeter,loveValue,extraLove;
 
 function initLoveMeter(){
 
-    loveMeter = document.getElementById("loveMeter");
-    loveValue = document.getElementById("loveValue");
-    extraLove = document.getElementById("extraLove");
+    loveMeter=document.getElementById("loveMeter");
+    loveValue=document.getElementById("loveValue");
+    extraLove=document.getElementById("extraLove");
 
-    if(!loveMeter) return;
+    if(!loveMeter)return;
 
-    loveMeter.value = 100;
-    loveValue.textContent = 100;
+
+    loveMeter.value=100;
+    loveValue.textContent=100;
 
 
     loveMeter.addEventListener("input",()=>{
 
-        const v = +loveMeter.value;
+        const v=+loveMeter.value;
 
-        loveValue.textContent = v;
+        loveValue.textContent=v;
 
 
-        const p = v / 10000;
+        const p=v/10000;
 
-        // Glow
-        loveMeter.style.boxShadow =
+
+        loveMeter.style.boxShadow=
           `0 0 ${15+p*50}px rgba(255,23,68,1),
            0 0 ${25+p*70}px rgba(255,128,171,1)`;
 
@@ -196,19 +194,31 @@ function initLoveMeter(){
         shakeScreen(p);
 
 
-        if(v > 100){
+        // Power glow
+        document
+          .querySelector(".love-meter")
+          .classList.add("power");
+
+        setTimeout(()=>{
+          document
+            .querySelector(".love-meter")
+            .classList.remove("power");
+        },300);
+
+
+        if(v>100){
 
             extraLove.classList.remove("hidden");
 
-            if(v > 9000){
-                extraLove.textContent = "MAX LOVE 💍🔥";
+            if(v>9000){
+                extraLove.textContent="MAX LOVE 💍🔥";
                 extraLove.classList.add("super-love");
             }
-            else if(v > 5000){
-                extraLove.textContent = "Too Much Love 😍";
+            else if(v>5000){
+                extraLove.textContent="Too Much Love 😍";
             }
             else{
-                extraLove.textContent = "More Than 100% 😘";
+                extraLove.textContent="More Than 100% 😘";
             }
 
         }else{
@@ -216,14 +226,20 @@ function initLoveMeter(){
         }
 
 
-        // FINAL MODE
-        if(v >= 10000 && !maxTriggered){
+        // Mini blasts
+        if(v>8000 && Math.random()>0.7){
+            shockwave();
+            particleStorm();
+        }
 
-            maxTriggered = true;
+
+        if(v>=10000 && !maxTriggered){
+
+            maxTriggered=true;
             startFinalExplosion();
         }
 
-        if(v < 9800) maxTriggered = false;
+        if(v<9800)maxTriggered=false;
     });
 }
 
@@ -239,31 +255,27 @@ function startFinalExplosion(){
 }
 
 
-// Shockwave Ring
+// Shockwave
 function shockwave(){
 
-    const wave = document.createElement("div");
+    const wave=document.createElement("div");
 
-    wave.style.position = "fixed";
-    wave.style.left = "50%";
-    wave.style.top = "50%";
-
-    wave.style.width = "20px";
-    wave.style.height = "20px";
-
-    wave.style.border =
-      "3px solid rgba(255,60,120,0.9)";
-
-    wave.style.borderRadius = "50%";
-    wave.style.transform = "translate(-50%,-50%)";
-    wave.style.zIndex = 99999;
+    wave.style.position="fixed";
+    wave.style.left="50%";
+    wave.style.top="50%";
+    wave.style.width="20px";
+    wave.style.height="20px";
+    wave.style.border="3px solid rgba(255,60,120,0.9)";
+    wave.style.borderRadius="50%";
+    wave.style.transform="translate(-50%,-50%)";
+    wave.style.zIndex=99999;
 
     document.body.appendChild(wave);
 
 
     wave.animate([
-        { transform:"translate(-50%,-50%) scale(1)", opacity:1 },
-        { transform:"translate(-50%,-50%) scale(40)", opacity:0 }
+        {transform:"translate(-50%,-50%) scale(1)",opacity:1},
+        {transform:"translate(-50%,-50%) scale(40)",opacity:0}
     ],{
         duration:900,
         easing:"ease-out"
@@ -278,9 +290,9 @@ function particleStorm(){
 
     for(let i=0;i<120;i++){
 
-        const p = document.createElement("div");
+        const p=document.createElement("div");
 
-        p.innerHTML = Math.random()>0.5?"💖":"✨";
+        p.innerHTML=Math.random()>0.5?"💖":"✨";
 
         p.style.position="fixed";
         p.style.left="50%";
@@ -297,8 +309,7 @@ function particleStorm(){
             {transform:"scale(1)",opacity:1},
             {transform:`translate(${x}px,${y}px) scale(0)`,opacity:0}
         ],{
-            duration:1000,
-            easing:"ease-out"
+            duration:1000
         });
 
         setTimeout(()=>p.remove(),1000);
@@ -306,14 +317,14 @@ function particleStorm(){
 }
 
 
-// ❤️ Heart Rain
+// Heart Rain
 function heartRain(){
 
-    const interval = setInterval(()=>{
+    const interval=setInterval(()=>{
 
-        const h = document.createElement("div");
+        const h=document.createElement("div");
 
-        h.innerHTML = "❤️";
+        h.innerHTML="❤️";
         h.style.position="fixed";
         h.style.left=Math.random()*100+"vw";
         h.style.top="-20px";
@@ -398,11 +409,12 @@ function celebrate(){
       .classList.remove("hidden");
 
 
-    const title = document.getElementById("celebrationTitle");
-    const msg = document.getElementById("celebrationMessage");
+    const title=document.getElementById("celebrationTitle");
+    const msg=document.getElementById("celebrationMessage");
 
 
     typeWriter(title,"I Love You Supriya ❤️",70);
+
 
     setTimeout(()=>{
 
@@ -425,7 +437,7 @@ function celebrate(){
 
 // ================= NO BUTTON =================
 
-// Better Teasing Messages
+// Teasing Messages
 const noMessages=[
  "First No? 😏 Really?",
  "Try again babe 💕",
@@ -440,21 +452,42 @@ const noMessages=[
 let noIndex=0,noTry=0;
 
 
-// Bubble Position
-function positionBubble(btn,b){
+// Bubble Helpers
+function showBubble(bubble,msg){
 
-    const r = btn.getBoundingClientRect();
+    bubble.textContent=msg;
 
-    b.style.left = r.left + r.width/2 + "px";
-    b.style.top = r.bottom + 8 + "px";
+    bubble.classList.remove("hidden");
+    bubble.classList.add("show");
+
+    clearTimeout(window.noTimer);
+
+    window.noTimer=setTimeout(()=>{
+
+        bubble.classList.remove("show");
+        bubble.classList.add("hidden");
+
+    },1800);
+}
+
+
+function positionBubble(btn,bubble){
+
+    const r=btn.getBoundingClientRect();
+
+    bubble.style.left =
+      r.left+r.width/2+"px";
+
+    bubble.style.top =
+      r.bottom+10+"px";
 }
 
 
 // Main No Handler
 function handleNoClick(e){
 
-    const btn = e.target;
-    const bubble = document.getElementById("noMessageBubble");
+    const btn=e.target;
+    const bubble=document.getElementById("noMessageBubble");
 
     noTry++;
 
@@ -464,9 +497,7 @@ function handleNoClick(e){
         btn.textContent="Okay Yes ❤️";
         btn.onclick=handleYesClick;
 
-        bubble.textContent="I knew it 😜❤️";
-        bubble.classList.remove("hidden");
-
+        showBubble(bubble,"I knew it 😜❤️");
         return;
     }
 
@@ -474,37 +505,31 @@ function handleNoClick(e){
     moveButton(btn);
 
 
-    // Sync popup after move
     setTimeout(()=>{
         positionBubble(btn,bubble);
     },50);
 
 
-    bubble.textContent = noMessages[noIndex++ % noMessages.length];
+    const msg=noMessages[noIndex++%noMessages.length];
 
-    bubble.classList.remove("hidden");
-
-
-    setTimeout(()=>{
-        bubble.classList.add("hidden");
-    },1500);
+    showBubble(bubble,msg);
 }
 
 
-// Smart Movement
+// Smart Move
 function moveButton(btn){
 
-    let speed =
-      noTry < 3 ? 250 :
-      noTry < 5 ? 120 :
+    let speed=
+      noTry<3?250:
+      noTry<5?120:
       40;
 
 
     btn.style.transition=`all ${speed}ms ease-out`;
 
 
-    const x = Math.random()*(window.innerWidth-120);
-    const y = Math.random()*(window.innerHeight-120);
+    const x=Math.random()*(window.innerWidth-120);
+    const y=Math.random()*(window.innerHeight-120);
 
     btn.style.position="fixed";
     btn.style.left=x+"px";
